@@ -3,8 +3,9 @@ var game = new Phaser.Game(400, 490, Phaser.AUTO, 'gameDiv');
 var mainState = {
 
     preload: function() { 
-      game.stage.backgroundColor = '#71c5cf';
-      game.load.image('bird', 'assets/bird.png');
+      game.stage.backgroundColor = '#BADA55';
+      //game.load.image('background', 'assets/bg.png');
+      game.load.image('bird', 'assets/angry.jpg');
        
       game.load.image('pipe', 'assets/pipe.png');
         
@@ -25,9 +26,10 @@ var mainState = {
       this.pipes.createMultiple(20, 'pipe');
       this.timer = game.time.events.loop(1500, this.addRowOfPipes, this);
 
-      this.score = 0;  
+      this.score = 0;
+      topScore = localStorage.getItem("topFlappyScore")==null?0:localStorage.getItem("topFlappyScore");  
       this.labelScore = game.add.text(20, 20, "0", 
-        { font: "30px Arial", fill: "#ffffff" });
+        { font: "30px Arial", fill: "red" });
          
     },
 
@@ -36,7 +38,7 @@ var mainState = {
       if (this.bird.inWorld == false)
         this.restartGame();
 
-      
+      game.physics.arcade.overlap(this.bird, this.pipes, this.restartGame, null, this);
            
     },
 
